@@ -1,0 +1,16 @@
+
+
+```{r}
+library(tidyverse)
+df_fmri <- read.csv('../DataRaw/fmri_phys_func.csv')
+```
+
+```{r}
+
+f <- paste('Y.1~', paste(colnames(df_fmri)[17:46], collapse = '+'))
+fit <- lm(f, data = df_fmri)
+```
+
+# Introduction
+
+The data for this project is on a set of resting state functional connectivity and a set of measures of physical function. The investigator wish to identify what measures of resting state functional connectivity are associate with individual physical function using separate linear regression models. 
