@@ -1,0 +1,21 @@
+---
+title: "Project 0 data analysis plan"
+author: Shuai Zhu
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+# Introduction
+
+# Method
+
+## Data cleaning
+
+
+## Data analysis
+
+
+## Preliminary Results
+
+\newpage
+# Appendix

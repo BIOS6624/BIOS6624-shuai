@@ -1,0 +1,141 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  12pt,
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Project 1 data analysis plan},
+  pdfauthor={Shuai Zhu},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Project 1 data analysis plan}
+\author{Shuai Zhu}
+\date{2024-09-23}
+
+\begin{document}
+\maketitle
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+The secondary data analysis of the Multicenter AIDS Cohort Study, a
+prospective cohort study designed to understand the natural and treated
+histories of HIV-1 infection in homosexual and bisexual men in 4 major
+in the United States. The dataset used in this analysis includes eight
+years of longitudinal data from 715 HIV-infected men, capturing
+laboratory measurements, quality of life scores, demographic
+information, and other health-related data collected after initiating
+highly active antiretroviral therapy (HAART). Multicenter AIDS Cohort
+Study is a prospective cohort study designed to understand the natural
+and treated histories of HIV-1 infection in homosexual and bisexual men
+in 4 major in the United States. The main research question is to know
+how treatment response two years after initiating HAART differs between
+individuals who reported using hard drugs at baseline and those who did
+not.
+
+\hypertarget{method}{%
+\section{Method}\label{method}}
+
+The dataset was filtered to include only baseline and year 2
+observations. The data was reshaped from long to wide format for ease of
+analysis. A new binary variable, adh, was created, where adh = 1 for
+participants with an adherence (ADH) score of 3 or less, and adh = 0
+otherwise. The outcome variables include viral load, CD4+ T cell count,
+physical quality of life score, and mental quality of life score.
+Potential predictor variables, such as age, hard drug use, BMI,
+education status, Adherence, and baseline measurements, were considered
+for univariable analysis. Predictor variables that showed a significant
+association with the outcomes were included in multivariable regression
+models for each of the four outcome measures. The assumptions of
+linearity, homoscedasticity, and normality will be assessed using
+diagnostic plots. P values \textless0.05 will be considered significant.
+R version 4.3.3 was used for data cleaning and analysis.
+
+\hypertarget{preliminary-results}{%
+\section{Preliminary Results}\label{preliminary-results}}
+
+In the univariable regression analysis, several predictor variables
+demonstrated significant associations with the outcomes:
+
+\begin{itemize}
+\tightlist
+\item
+  Viral Load: Education status, adherence, and baseline viral load were
+  significantly associated with viral load at two years.
+\item
+  CD4+ T Cell Count: Significant predictors for CD4+ T cell count
+  included education status and baseline CD4+ T cell count.
+\item
+  Physical Quality of Life Score: Age, education status, baseline
+  physical quality of life score, and hard drug use were significantly
+  associated with the physical quality of life score.
+\item
+  Mental Quality of Life Score: Age, BMI, education status, and baseline
+  mental quality of life score showed significant associations with the
+  mental quality of life score.
+\end{itemize}
+
+\end{document}
