@@ -1,94 +1,86 @@
 ---
-title: "Project 0 data analysis plan"
+title: "Project 0 final report"
 author: Shuai Zhu
 date: "`r Sys.Date()`"
-output: pdf_document
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    keep_tex: true
+    number_sections: true
+    fig_caption: true
+fontsize: 12pt
+geometry: margin=1in
+header-includes:
+  - \usepackage{setspace}
+  - \doublespacing
+  - \usepackage{fontspec}
+  - \setmainfont{Times New Roman}
+---
 ---
 
 ```{r,message=F,echo = F}
 library(tidyverse)
-df_fmri <- read.csv('../DataRaw/fmri_phys_func.csv')
+working_directory <- 'C:/Users/zhushu/OneDrive/Graduate File/Course/Bios6624/BIOS6624-shuai/Project0'
 ```
 
-```{r,echo = F}
-df_pvalue <- matrix(rep(NA,450),byrow = T, nrow = 30)
-df_beta <- matrix(rep(NA,450),byrow = T, nrow = 30)
-for(i in 1:15){
-  f <- paste0('Y.',i,'~', paste(colnames(df_fmri)[17:46], collapse = '+'))
-  fit <- lm(f, data = df_fmri)
-  df_pvalue[,i] <- as.vector(summary(fit)$coefficient[,4][2:31])
-  
-}
-for(i in 1:15){
-  f <- paste0('Y.',i,'~', paste(colnames(df_fmri)[17:46], collapse = '+'))
-  fit <- lm(f, data = df_fmri)
-  df_beta[,i] <- as.vector(summary(fit)$coefficient[,1][2:31])
-  
-}
-
-df_pvalue <- data.frame(df_pvalue)
-colnames(df_pvalue) <- paste0('Y.',1:15)
-rownames(df_pvalue) <- paste0('X.',1:30)
-df_significant <- df_pvalue<0.000111
-df_cleaned <- df_significant[rowSums(df_significant == FALSE) != ncol(df_significant), ]
-
-df_beta <- data.frame(df_beta)
-colnames(df_beta) <- paste0('Y.',1:15)
-rownames(df_beta) <- paste0('X.',1:30)
-
-```
 
 # Introduction
 
-The data for this project is on a set of resting state functional connectivity(RSFC) and a set of measures of physical function. The investigator collect 30 resting state functional connectivity and 15 physical function of 300 participants. The objective of this report is to outline an analysis plan aimed at addressing the following research question:
+The data for this project is on a set of resting state functional connectivity(RSFC) and a set of measures of physical function. The investigator collected 30 resting state functional connectivity and 15 physical functions of 300 participants. The objective of this report is to outline an analysis plan aimed at addressing the following research question:
 
-- what measures of resting state functional connectivity are associate with individual physical function. 
+- what measures of resting state functional connectivity are associated with individual physical function. 
 
 To achieve this, we employ a series of separate linear regression models, one for each measure of physical function.
 
 # Method
-## Data collection
-The study collected data from 300 participants. For each participant, the following data were obtained:
-
-- 30 measures of resting state functional connectivity (predictors)
-- 15 measures of physical function (outcomes)
-
-## Data cleaning
-
-There is no data cleaning procedure was done. 
+## Data collection and Data cleaning
+The study collected data from 300 participants. For each participant, two sets of data were obtained. 30 measures of resting-state functional connectivity (RSFC): These measures, labeled as X.1 to X.30, were used as predictors in the analysis. 15 measures of physical function: These measures, labeled Y.1 to Y.15, were used as outcomes in the study. No formal data cleaning procedures were applied to the dataset. All available data from the 300 participants were included in the analysis without the removal of outliers,
 
 ## Data analysis
 
-A total of 15 regression models and 450 tests was conducted. The general notation of multiple regression model can be written as following:
-$$ 
-y^m= x\beta^m+\epsilon^m
-$$
+A total of 15 multivariable linear regression models were conducted to examine the associations between 30 resting-state functional connectivity predictors and 15 physical function outcomes, resulting in 450 tests. 480 parameters were estimated across all models, but the analysis focused on 450 parameters, excluding the intercept.
 
-- $y^m$ is the vector of observations for the m-th physical function measure
+### Multiple Testing and Family-Wise Error Rate (FWER)
+Given the large number of tests conducted, controlling for the family-wise Type I error rate (FWER) was essential to reduce the risk of false discoveries. The FWER represents the probability of making at least one false positive across all 450 tests. To address this, the Bonferroni correction was applied. By dividing the desired significance level (0.05) by the total number of tests (450), the adjusted threshold for significance was set to a p-value of less than 0.000111. Any p-value below this threshold was considered statistically significant.
 
-- $X$ is the design matrix containing the 30 RSFC predictors and an intercept term
+While the Bonferroni correction is straightforward to implement, it is known to be overly conservative, especially when handling a large number of tests, as it reduces statistical power by inflating the threshold for significance. Therefore, it may lead to the exclusion of predictors that are truly significant.
 
-- $\beta^m$ is the vector of regression coefficients for the m-th model
+### Alternative Correction Approach: Bootstrap-Based Adjustment
+An alternative bootstrap-based approach was employed to address the limitations of the Bonferroni correction. This method leverages resampling to estimate the empirical distribution of the regression coefficients. Specifically, bootstrap sampling was used to generate distributions for the estimated beta coefficients, which were then used to compute 95% confidence intervals. The bootstrap method involved repeatedly resampling the data with replacement and refitting the models to generate a distribution of coefficient estimates for each predictor.
 
-- $\epsilon^m$ is the error term, assumed to be normally distributed: $\epsilon^m \sim N(0,\Sigma^m)$
+Predictors with confidence intervals that did not include zero were considered statistically significant. Unlike the Bonferroni method, the bootstrap-based approach does not rely on p-values and provides a measure of significance by directly assessing the variability of the coefficients. The results of this method, including the significant predictors and their corresponding confidence intervals, are presented in Table 1.
 
-Totally, m$*$(p+1)+m = 480 parameters was estimating but investigator only interested in m$*$p= 450 parameters. The estimate of coefficient and p value are reported on Appendix Table 1 and Table 2 respectively. 
+All analyses were conducted using R version 4.3.3.
 
-The hypothesis for each coefficient $\beta_i$ is that :$H_0:\beta_i=0, H_1:\beta_i \neq0$. Family-wise Type I error rate is the probability of making at least one false discovery across all our tests. In order to correct multiple tests, the Bonferroni correction was applied. The adjusted significance level $\alpha_{adjusted} = \frac{\alpha}{\text{number of tests}}$. By using Bonferroni correction, the FWER is controlled to be at most 0.05. For our project, the adjusted significance level is $\frac{0.05}{450}= 0.000111$. So a P values < 0.000111 will be considered significant. After fitting the data to multiple linear regressions, a table(Appendix: table 1) of p value for each coefficients was generated. 
+# Results
 
-The Bonferroni correction, while simple to implement, is often overly conservative, especially when dealing with a large number of tests. A alternative correlation approach was tried to conduct. Let $\hat{\hat{\boldsymbol{\beta}}}=\left[\hat{\boldsymbol{\beta}}^{1^t}, \ldots, \hat{\boldsymbol{\beta}}^{M^t}\right]^t$, if we know $\hat{\beta}$ is multivariate normal, then we can get a distribution of estimates for each coefficient, which we can use to construct confidence intervals. To let $\hat{\beta}$ multivariate normal, we have to make some assumptions. 
+Fifteen multivariable regression models were fitted to identify associations between 30 resting-state functional connectivity predictors and each of the 15 physical function outcomes. The significance of each predictor across the models is presented in Table 2 (Appendix). Without adjustment, 79 predictors were significantly associated with the physical function outcomes. Among these, predictor X.5 was significant for 9 outcomes.
 
-## Preliminary Results
+Applying the Bonferroni correction reduced the number of significant predictors to 6 (Table 3). As mentioned in the Methods section, the Bonferroni correction was overly conservative. An alternative bootstrap-based approach increased the number of significant predictors to 44 (Appendix Table 3). P-values were not calculated with this method; instead, a 95% confidence interval that did not include 0 was considered significant. 
 
-According to the table, The predictor X.4, X.5, X.7, X.15, X.20, X.23, X.26, X.27, X.29 are significant in at least one model. Among the predictor that is significant in at least one model, X.5, X23 and X29 are significant in five, seven and five models respectively. 
+# Conclusions
+
+Based on the results of the bootstrap-based adjustment, predictor X.5 was found to be significantly associated with most physical function outcomes, suggesting a potential relationship between this resting-state functional connectivity measure and physical function. For example, the relationship between X.5 and Y.1 can be interpreted as follows: for each one-unit increase in resting-state functional connectivity (X.5), the physical function Y.1 increases by 1.31 units, with a 95% confidence interval ranging from 0.0657 to 2.55. This indicates that the effect of X.5 on Y.1 is likely positive, and the association is statistically significant, as the confidence interval does not include zero. One advantage of the bootstrap method is its ability to control the family-wise error rate (FWER) more effectively compared to the Bonferroni correction. This approach is less conservative than Bonferroni's, allowing for greater statistical power while still controlling the FWER.
+
+
+```{r, echo=F}
+
+readRDS(paste0(working_directory, '/DataProcessed/estimate table with alternative adjustment.RDS'))%>%
+  knitr::kable(caption = 'Significant Predictors after Adjustment of bootstrap', digits = 3)
+
+```
+
 
 \newpage
 # Appendix
 
 
 ```{r,echo = F}
-knitr::kable(df_pvalue, caption = 'The p values of coefficients for 15 regression models',digits = 3)
-knitr::kable(df_beta, caption = 'The estimated coefficients for 15 regression models',digits = 1)
+readRDS(paste0(working_directory, '/DataProcessed/estimate table without adjustement.RDS'))%>%
+  knitr::kable(caption = 'Significant Predictors without adjustement', digits = 3)
+
+readRDS(paste0(working_directory, '/DataProcessed/estimate table Bonferroni adjustement.RDS'))%>%
+  knitr::kable(caption = 'Significant Predictors with Bonferroni correlation', digits = 3)
 
 ```
 
