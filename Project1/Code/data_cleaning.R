@@ -4,7 +4,7 @@ library(gtsummary)
 library(table1) 
 library(openxlsx)
 n = 430
-working_directory <- 'C:/Users/zhushu/OneDrive/Graduate File/Course/Bios6624/BIOS6624-shuai/Project1'
+working_directory <- 'C:/Users/zhu-s/OneDrive/Graduate File/Course/Bios6624/BIOS6624-shuai/Project1'
 df_hiv <- read.csv(paste0(working_directory, '/DataRaw/hiv_6624_final.csv'))%>%as_tibble()
 
 ### convert long format to wide format
