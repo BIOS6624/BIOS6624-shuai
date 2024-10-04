@@ -37,7 +37,7 @@ df_hiv_lm_model <- df_hiv_lm_model%>%
          LEU3N_year2_log =log(LEU3N_year2))%>%
   ### categorize education variable
   mutate(edu = factor(EDUCBAS_year2, levels = 1:7, 
-                    labels = c(rep('High school', 3),'Some college','some college', 'Graduate, Post Graduate','Graduate, Post Graduate')))%>%
+                    labels = c(rep('High school', 3),'some college', 'some college', 'Graduate, Post Graduate','Graduate, Post Graduate')))%>%
   ### categroize bmi variable
   mutate(BMI = case_when(BMI_year0 < 18.5 ~ "Underweight",
                          BMI_year0 > 18.5 & BMI_year0 < 25 ~ "Healthy",

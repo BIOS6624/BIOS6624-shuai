@@ -1,0 +1,28 @@
+---
+title: "Project 1 data analysis plan"
+author: Shuai Zhu
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+    latex_engine: pdflatex
+    keep_tex: true
+    number_sections: true
+    fig_caption: true
+fontsize: 12pt
+geometry: "margin=1in"
+header-includes:
+   - \usepackage{setspace}
+   - \onehalfspacing
+   - \usepackage{helvet}
+   - \renewcommand{\familydefault}{\sfdefault}
+---
+
+# Introduction
+
+# Method
+
+# Result
+
+# Conclusion
+
+
