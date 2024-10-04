@@ -1,5 +1,5 @@
 ---
-title: "Project 1 data analysis plan"
+title: "Project 1 Final report"
 author: Shuai Zhu
 date: "`r Sys.Date()`"
 output: 
@@ -13,15 +13,52 @@ geometry: "margin=1in"
 header-includes:
    - \usepackage{setspace}
    - \onehalfspacing
-   - \usepackage{helvet}
-   - \renewcommand{\familydefault}{\sfdefault}
+   #- \doublespacing
 ---
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+</style>
+```{r,echo = F, message=F}
+library(table1)
+library(tidyverse)
+library(kableExtra)
+working_directory <- 'C:/Users/zhushu/OneDrive/Graduate File/Course/Bios6624/BIOS6624-shuai/Project1'
+```
 
 # Introduction
 
-# Method
+The data used in this analysis come from the ongoing Multicenter AIDS Cohort Study (MACS), a prospective cohort study designed to understand the natural and treated histories of HIV-1 infection in homosexual and bisexual men across four major cities in the United States. This dataset includes eight years of longitudinal data from 715 HIV-infected men, capturing laboratory measurements, quality of life scores, demographic information, and other health-related data collected after the initiation of highly active antiretroviral therapy (HAART), which is the standard treatment for patients with HIV.
+
+The primary research question is to examine how treatment response, two years after initiating HAART, differs between individuals who reported hard drug use at baseline and those who did not. Four key measures of treatment response are considered: viral load, CD4+ T cell counts, and physical and mental quality of life scores.
+
+# Methods
+
+## Data cleaning
+Baseline and two year measurement was filtered for further analysis since the purpose of this project is find out how treatment response differ two years after treatment. The data with BMI greater than 200 or less than 0 was removed since it is impossible. The records with complete case was used for further analysis and the number of observations was reduced to 425. Furthermore, BMI was categorized to four levels underweight (BMI < 18.5 kg/m2), healthy (BMI 18.5 - 24.9 kg/m2), overweight(BMI 24.9 - 30 kg/m2) and obese (BMI > 30 kg/m2). Adherence was dichotomized into >=95% and <95%. The education levels was collapsed into three levels (High school or before, Some college, and Graduate or Post-graduate).  
+
+## Data analysis
+
+Both frequentist and Bayesian approaches were employed to assess differences in treatment response by baseline hard drug use. The four key outcomes used to assess treatment response were viral load, CD4+ T cell counts, and physical and mental quality of life scores (AGG_PHYS and AGG_MENT). The objective was to model the impact of hard drug use, adjusting for several covariates, including baseline treatment response, BMI, age, education level, and adherence. Viral load, due to its skewed distribution, was log-transformed to meet the assumption of normality. For the frequentist approach, four multivariable linear regression models were fitted, each predicting one of the treatment response outcomes. The model assumptions—independence, linearity, homoscedasticity, and normality—were carefully evaluated using standard diagnostic tools. Independence was verified by inspecting the structure of the data and residuals. Linearity was checked by assessing the relationship between predictors and outcome variables using residual plots. Homoscedasticity was evaluated using residuals vs. fitted values plots. Normality of residuals was tested through QQ-plots.
+
+For Bayesian regression models, both non-informative and vague priors were used. The non-informative priors of beta are distributed with mean 0 and standard deviation 10^7. The vague priors of beta are distributed with mean 0 and standard deviation 10^6. The prior distribution for the model error was set as a half-Cauchy distribution with a scale parameter of 2.5. Bayesian inference was carried out using Markov Chain Monte Carlo (MCMC) sampling. Each model was run with 4 MCMC chains, with each chain consisting of 2,000 iterations, including a 1,000 iteration burn-in period to ensure convergence. The posterior distributions for all model parameters were summarized, and credible intervals were used to quantify uncertainty in the estimates.
+
+For the frequentist models, standard metrics such as p-values and confidence intervals were used to assess the significance and effect sizes of the predictors. For the Bayesian models, the convergence of MCMC chains was assessed through trace plots. Posterior means and 95% credible intervals were reported for each parameter to provide a full picture of the uncertainty around the estimates.
+
+
 
 # Result
+
+## Frequentist
+
+## Bayesian
+
+```{r, echo = F}
+t1kable(readRDS(paste0(working_directory, '/Figure/Tableone.RDS')))%>%
+  kable_styling(font_size = 10)
+```
+
 
 # Conclusion
 

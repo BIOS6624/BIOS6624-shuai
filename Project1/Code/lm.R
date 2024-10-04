@@ -1,7 +1,7 @@
 library(openxlsx)
+library(gtsummary)
 
-
-working_directory <- 'C:/Users/zhu-s/OneDrive/Graduate File/Course/Bios6624/BIOS6624-shuai/Project1'
+working_directory <- 'C:/Users/zhushu/OneDrive/Graduate File/Course/Bios6624/BIOS6624-shuai/Project1'
 
 df_cleaned <- read.xlsx(paste0(working_directory, '/DataProcessed/cleaned data.xlsx'))
 df_hiv_lm_model <- df_cleaned
@@ -44,6 +44,7 @@ for (i in 1:4){
                  data = df_hiv_lm_model)
   model_list[[i]] <- model.fit
 }
+
 save_diagnostic <- function(model, filename){
   jpeg(paste0(working_directory, '/Figure/',filename),width = 800, height = 800,res = 100)
   par(mfrow = c(2, 2)) 
