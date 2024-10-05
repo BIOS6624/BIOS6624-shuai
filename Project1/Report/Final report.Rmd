@@ -24,7 +24,7 @@ header-includes:
 library(table1)
 library(tidyverse)
 library(kableExtra)
-working_directory <- 'C:/Users/zhushu/OneDrive/Graduate File/Course/Bios6624/BIOS6624-shuai/Project1'
+working_directory <- 'C:/Users/zhu-s/OneDrive/Graduate File/Course/Bios6624/BIOS6624-shuai/Project1'
 ```
 
 # Introduction
@@ -46,13 +46,34 @@ For Bayesian regression models, both non-informative and vague priors were used.
 
 For the frequentist models, standard metrics such as p-values and confidence intervals were used to assess the significance and effect sizes of the predictors. For the Bayesian models, the convergence of MCMC chains was assessed through trace plots. Posterior means and 95% credible intervals were reported for each parameter to provide a full picture of the uncertainty around the estimates.
 
-
+R version 4.4.4 was used for all models.
 
 # Result
+The percentage of missing data was visualized in figure one. It is easily to see that four outcome measurement of treament response at year 2 and education level had about 30% missing. Viral load and CD4+ T Cell Count at baseline and BMI level had missing range from 3.4% to 5.9%. Physical quality of life and mental quality of life at Baseline, age and adherence had almost no missing. 425 participants was kept after removing subject with any missing value. Only 58% subjects was used for analysis. Among those subjects with complete cases, 35(8.2%) participants reported those as hard drugs user. This was shown in tableone.
 
 ## Frequentist
 
+After adjusting for baseline log viral load, age, BMI, education levels, and adherence, the frequentist multivariable linear regression model suggests that patients who identified as hard drug users at baseline had 0.96 times the viral load compared to those who did not identify as hard drug users at baseline (95% CI: (0.39, 2.39), p value = 0.9367). This indicates that, on average, hard drug users had a slightly lower viral load compared to non-drug users.
+
+After adjusting for baseline CD4+ T cell counts, age, BMI, education levels, and adherence, the frequentist multivariable linear regression model suggests that patients who identified as hard drug users at baseline had 186.284 lower CD4+ T cell counts compared to those who did not identify as hard drug users at baseline with the confidence interval suggesting that the true difference could range from a reduction of 124 to 249 CD4+ T cell(p value < 0.05). 
+
+After adjusting for baseline CD4+ T cell counts, age, BMI, education levels, and adherence, the frequentist multivariable linear regression model suggests that patients who identified as hard drug users at baseline had 186.284 lower CD4+ T cell counts compared to those who did not identify as hard drug users at baseline with the confidence interval suggesting that the true difference could range from a reduction of 124 to 249 CD4+ T cell(p value < 0.05). 
+
+After adjusting for baseline physical quality of life score, age, BMI, education levels, and adherence, the frequentist multivariable linear regression model suggests that patients who identified as hard drug users at baseline had an average 3.32-point lower physical quality of life score compared to non-drug users (95% CI: -6.02, -0.62). The confidence interval indicates that the true difference in physical quality of life score could range from a reduction of 6.02 to 0.62 points, and since the p-value is less than 0.05, this result is statistically significant, indicating a meaningful negative association between hard drug use and physical quality of life.
+
+After adjusting for baseline physical quality of life score, age, BMI, education levels, and adherence, the frequentist multivariable linear regression model suggests that patients who identified as hard drug users at baseline had an average 1.17-point lower physical quality of life score compared to non-drug users (95% CI: -4.60, -2.25). The confidence interval indicates that the true difference in physical quality of life score could range from a reduction of 4.60 to 2.25 points, and since the p-value is less than 0.05, this result is statistically significant. This suggests a meaningful negative association between hard drug use and physical quality of life. 
+
 ## Bayesian
+
+
+
+
+# Conclusion
+```{r, echo = F,fig.cap = "Percentage of Missing Data by Variable"}
+knitr::include_graphics(paste0(working_directory, '/DataProcessed/missing visulization.png'))
+```
+
+
 
 ```{r, echo = F}
 t1kable(readRDS(paste0(working_directory, '/Figure/Tableone.RDS')))%>%
@@ -60,6 +81,27 @@ t1kable(readRDS(paste0(working_directory, '/Figure/Tableone.RDS')))%>%
 ```
 
 
-# Conclusion
+```{r, echo = F}
+df_estimate <- readRDS(paste0(working_directory, '/DataProcessed/lm estimate.RDS'))
+#df_estimate%>%knitr::kable(caption = 'Estimatae and 95% Confident interval of frequentist  approach')
 
+
+df_noninfo_estimate <- readRDS(paste0(working_directory,'/DataProcessed/df_noninfo_estimate.RDS'))
+
+
+df_vague_estimate <- readRDS(paste0(working_directory,'/DataProcessed/df_vague_estimate.RDS'))
+#df_vague_estimate%>%knitr::kable(caption = 'Estimatae and 95% Credit interval of Bayesian approach with vague priors')
+
+df_comparion <- cbind(df_estimate,df_vague_estimate)
+rownames(df_comparion) <- c('Log Viral Load', 'CD4+ Count', 
+                           "Physical score", "Mental score")
+colnames(df_comparion)[c(1,4)] <- c('Frequentist', 'Vague' )
+
+df_comparion%>%kable(digits = 3,caption = 'Comparions of estimate and 95% confident intervals and credit intervals between Frequentist and Bayesian approach')
+
+
+rownames(df_noninfo_estimate) <- c('Log Viral Load', 'CD4+ Cell Count', 
+                           "Physical score", "Mental score")
+df_noninfo_estimate%>%knitr::kable(caption = 'Estimatae and 95% Credit interval of Bayesian approach with noninformative priors')
+```
 

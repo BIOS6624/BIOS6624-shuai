@@ -38,6 +38,16 @@
 \makeatother
 \usepackage{xcolor}
 \usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -78,14 +88,14 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
-  pdftitle={Project 1 final report},
+  pdftitle={Project 1 Final report},
   pdfauthor={Shuai Zhu},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
-\title{Project 1 final report}
+\title{Project 1 Final report}
 \author{Shuai Zhu}
-\date{2024-10-04}
+\date{2024-10-05}
 
 \begin{document}
 \maketitle
@@ -168,75 +178,226 @@ MCMC chains was assessed through trace plots. Posterior means and 95\%
 credible intervals were reported for each parameter to provide a full
 picture of the uncertainty around the estimates.
 
+R version 4.4.4 was used for all models.
+
 \hypertarget{result}{%
 \section{Result}\label{result}}
 
-\begin{table}
+The percentage of missing data was visualized in figure one. It is
+easily to see that four outcome measurement of treament response at year
+2 and education level had about 30\% missing. Viral load and CD4+ T Cell
+Count at baseline and BMI level had missing range from 3.4\% to 5.9\%.
+Physical quality of life and mental quality of life at Baseline, age and
+adherence had almost no missing. 425 participants was kept after
+removing subject with any missing value. Only 58\% subjects was used for
+analysis. Among those subjects with complete cases, 35(8.2\%)
+participants reported those as hard drugs user. This was shown in
+tableone.
 
-\caption{\label{tab:unnamed-chunk-2}Summary of outcomes and predictors by hard drugs}
+\hypertarget{frequentist}{%
+\subsection{Frequentist}\label{frequentist}}
+
+After adjusting for baseline log viral load, age, BMI, education levels,
+and adherence, the frequentist multivariable linear regression model
+suggests that patients who identified as hard drug users at baseline had
+0.96 times the viral load compared to those who did not identify as hard
+drug users at baseline (95\% CI: (0.39, 2.39), p value = 0.9367). This
+indicates that, on average, hard drug users had a slightly lower viral
+load compared to non-drug users.
+
+After adjusting for baseline CD4+ T cell counts, age, BMI, education
+levels, and adherence, the frequentist multivariable linear regression
+model suggests that patients who identified as hard drug users at
+baseline had 186.284 lower CD4+ T cell counts compared to those who did
+not identify as hard drug users at baseline with the confidence interval
+suggesting that the true difference could range from a reduction of 124
+to 249 CD4+ T cell(p value \textless{} 0.05).
+
+After adjusting for baseline CD4+ T cell counts, age, BMI, education
+levels, and adherence, the frequentist multivariable linear regression
+model suggests that patients who identified as hard drug users at
+baseline had 186.284 lower CD4+ T cell counts compared to those who did
+not identify as hard drug users at baseline with the confidence interval
+suggesting that the true difference could range from a reduction of 124
+to 249 CD4+ T cell(p value \textless{} 0.05).
+
+After adjusting for baseline physical quality of life score, age, BMI,
+education levels, and adherence, the frequentist multivariable linear
+regression model suggests that patients who identified as hard drug
+users at baseline had an average 3.32-point lower physical quality of
+life score compared to non-drug users (95\% CI: -6.02, -0.62). The
+confidence interval indicates that the true difference in physical
+quality of life score could range from a reduction of 6.02 to 0.62
+points, and since the p-value is less than 0.05, this result is
+statistically significant, indicating a meaningful negative association
+between hard drug use and physical quality of life.
+
+After adjusting for baseline physical quality of life score, age, BMI,
+education levels, and adherence, the frequentist multivariable linear
+regression model suggests that patients who identified as hard drug
+users at baseline had an average 1.17-point lower physical quality of
+life score compared to non-drug users (95\% CI: -4.60, -2.25). The
+confidence interval indicates that the true difference in physical
+quality of life score could range from a reduction of 4.60 to 2.25
+points, and since the p-value is less than 0.05, this result is
+statistically significant. This suggests a meaningful negative
+association between hard drug use and physical quality of life.
+
+\hypertarget{bayesian}{%
+\subsection{Bayesian}\label{bayesian}}
+
+\hypertarget{conclusion}{%
+\section{Conclusion}\label{conclusion}}
+
+\begin{figure}
+\includegraphics[width=14.08in]{../DataProcessed/missing visulization} \caption{Percentage of Missing Data by Variable}\label{fig:unnamed-chunk-2}
+\end{figure}
+
+\begin{table}
+\centering
+\caption{\label{tab:unnamed-chunk-3}Summary of outcomes and predictors stratified by hard drugs}
 \centering
 \fontsize{10}{12}\selectfont
 \begin{tabular}[t]{llll}
 \toprule
-  & 0 & 1 & Overall\\
+  & Hard drugs use & No hard drugs use & Overall\\
 \midrule
- & (N=390) & (N=35) & (N=425)\\
+ & (N=66) & (N=649) & (N=715)\\
 \addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{Log-transformed Viral Load at Baseline}}\\
-\hspace{1em}Mean (SD) & 10.5 (2.05) & 10.6 (2.01) & 10.5 (2.05)\\
-\hspace{1em}Median [Min, Max] & 10.4 [2.20, 19.1] & 10.3 [6.61, 14.7] & 10.4 [2.20, 19.1]\\
+\multicolumn{4}{l}{\textbf{Viral Load at Baseline}}\\
+\hspace{1em}Mean (SD) & 265000 (609000) & 823000 (10200000) & 771000 (9730000)\\
+\hspace{1em}Median [Min, Max] & 45900 [739, 2520000] & 33700 [1.73, 191000000] & 33800 [1.73, 191000000]\\
+\hspace{1em}Missing & 3 (4.5\%) & 39 (6.0\%) & 42 (5.9\%)\\
 \addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{Log-transformed Viral Load at Year 2}}\\
-\hspace{1em}Mean (SD) & 4.07 (2.73) & 4.13 (3.30) & 4.07 (2.78)\\
-\hspace{1em}Median [Min, Max] & 3.43 [-1.40, 13.5] & 3.74 [-0.301, 13.0] & 3.43 [-1.40, 13.5]\\
+\multicolumn{4}{l}{\textbf{Viral Load at Year 2}}\\
+\hspace{1em}Mean (SD) & 32900 (114000) & 6220 (40800) & 8360 (51100)\\
+\hspace{1em}Median [Min, Max] & 42.0 [0.740, 424000] & 31.0 [0.247, 711000] & 31.0 [0.247, 711000]\\
+\hspace{1em}Missing & 27 (40.9\%) & 201 (31.0\%) & 228 \vphantom{1} (31.9\%)\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{CD4+ T Cell Count at Baseline}}\\
-\hspace{1em}Mean (SD) & 377 (197) & 361 (204) & 376 (197)\\
-\hspace{1em}Median [Min, Max] & 361 [12.4, 1220] & 453 [10.9, 650] & 361 [10.9, 1220]\\
+\hspace{1em}Mean (SD) & 335 (187) & 385 (211) & 380 (210)\\
+\hspace{1em}Median [Min, Max] & 301 [10.9, 778] & 363 [10.9, 1220] & 361 [10.9, 1220]\\
+\hspace{1em}Missing & 0 (0\%) & 24 (3.7\%) & 24 (3.4\%)\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{CD4+ T Cell Count at Year 2}}\\
-\hspace{1em}Mean (SD) & 565 (258) & 372 (252) & 549 (263)\\
-\hspace{1em}Median [Min, Max] & 544 [39.5, 1730] & 357 [60.0, 971] & 529 [39.5, 1730]\\
+\hspace{1em}Mean (SD) & 366 (240) & 560 (265) & 544 (268)\\
+\hspace{1em}Median [Min, Max] & 348 [60.0, 971] & 537 [39.5, 1730] & 516 [39.5, 1730]\\
+\hspace{1em}Missing & 27 (40.9\%) & 201 (31.0\%) & 228 (31.9\%)\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Physical Quality of Life at Baseline}}\\
-\hspace{1em}Mean (SD) & 51.5 (8.67) & 48.8 (6.86) & 51.3 (8.56)\\
-\hspace{1em}Median [Min, Max] & 53.7 [22.4, 69.0] & 46.7 [31.4, 62.9] & 53.5 [22.4, 69.0]\\
+\hspace{1em}Mean (SD) & 44.8 (9.58) & 50.7 (9.37) & 50.1 (9.54)\\
+\hspace{1em}Median [Min, Max] & 45.3 [27.0, 62.9] & 53.3 [19.2, 69.0] & 52.8 [19.2, 69.0]\\
+\hspace{1em}Missing & 0 (0\%) & 2 (0.3\%) & 2 \vphantom{1} (0.3\%)\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Physical Quality of Life at Year 2}}\\
-\hspace{1em}Mean (SD) & 50.0 (9.94) & 44.4 (12.1) & 49.5 (10.2)\\
-\hspace{1em}Median [Min, Max] & 53.3 [14.8, 68.9] & 45.5 [18.2, 63.9] & 53.2 [14.8, 68.9]\\
+\hspace{1em}Mean (SD) & 43.8 (11.6) & 49.9 (10.0) & 49.4 (10.2)\\
+\hspace{1em}Median [Min, Max] & 43.2 [18.2, 63.9] & 53.3 [14.8, 69.1] & 53.0 [14.8, 69.1]\\
+\hspace{1em}Missing & 27 (40.9\%) & 188 (29.0\%) & 215 \vphantom{1} (30.1\%)\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Mental Quality of Life at Baseline}}\\
-\hspace{1em}Mean (SD) & 44.9 (13.9) & 42.6 (11.3) & 44.7 (13.7)\\
-\hspace{1em}Median [Min, Max] & 49.3 [7.23, 66.0] & 45.1 [22.9, 59.6] & 48.9 [7.23, 66.0]\\
+\hspace{1em}Mean (SD) & 43.4 (12.4) & 45.6 (13.4) & 45.4 (13.3)\\
+\hspace{1em}Median [Min, Max] & 46.6 [20.8, 59.6] & 49.7 [7.23, 69.8] & 49.3 [7.23, 69.8]\\
+\hspace{1em}Missing & 0 (0\%) & 2 (0.3\%) & 2 (0.3\%)\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Mental Quality of Life at Year 2}}\\
-\hspace{1em}Mean (SD) & 47.7 (11.6) & 46.2 (14.2) & 47.6 (11.8)\\
-\hspace{1em}Median [Min, Max] & 51.2 [10.5, 66.7] & 49.6 [21.3, 65.3] & 51.2 [10.5, 66.7]\\
+\hspace{1em}Mean (SD) & 45.9 (13.5) & 47.6 (11.8) & 47.5 (11.9)\\
+\hspace{1em}Median [Min, Max] & 47.6 [21.3, 65.3] & 51.5 [10.5, 66.7] & 51.2 [10.5, 66.7]\\
+\hspace{1em}Missing & 27 (40.9\%) & 188 (29.0\%) & 215 (30.1\%)\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Age (years)}}\\
-\hspace{1em}Mean (SD) & 43.0 (8.82) & 44.2 (9.43) & 43.1 (8.86)\\
-\hspace{1em}Median [Min, Max] & 43.0 [20.0, 73.0] & 47.0 [29.0, 61.0] & 43.0 [20.0, 73.0]\\
+\hspace{1em}Mean (SD) & 43.7 (9.85) & 42.4 (9.38) & 42.6 (9.42)\\
+\hspace{1em}Median [Min, Max] & 45.5 [26.0, 61.0] & 42.0 [19.0, 73.0] & 42.0 [19.0, 73.0]\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Body Mass Index (kg/m²)}}\\
-\hspace{1em}Healthy & 192 (49.2\%) & 25 (71.4\%) & 217 (51.1\%)\\
-\hspace{1em}Obsese & 47 (12.1\%) & 2 (5.7\%) & 49 (11.5\%)\\
-\hspace{1em}Overweight & 138 (35.4\%) & 7 (20.0\%) & 145 (34.1\%)\\
-\hspace{1em}Underweight & 13 (3.3\%) & 1 (2.9\%) & 14 (3.3\%)\\
+\hspace{1em}Healthy & 41 (62.1\%) & 309 (47.6\%) & 350 (49.0\%)\\
+\hspace{1em}Obsese & 5 (7.6\%) & 81 (12.5\%) & 86 (12.0\%)\\
+\hspace{1em}Overweight & 13 (19.7\%) & 210 (32.4\%) & 223 (31.2\%)\\
+\hspace{1em}Underweight & 7 (10.6\%) & 22 (3.4\%) & 29 (4.1\%)\\
+\hspace{1em}Missing & 0 (0\%) & 27 (4.2\%) & 27 (3.8\%)\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Adherence Level}}\\
-\hspace{1em}Mean (SD) & 0.897 (0.304) & 1.00 (0) & 0.906 (0.292)\\
-\hspace{1em}Median [Min, Max] & 1.00 [0, 1.00] & 1.00 [1.00, 1.00] & 1.00 [0, 1.00]\\
+\hspace{1em}Mean (SD) & 0.576 (0.498) & 0.641 (0.480) & 0.635 (0.482)\\
+\hspace{1em}Median [Min, Max] & 1.00 [0, 1.00] & 1.00 [0, 1.00] & 1.00 [0, 1.00]\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Education Level}}\\
-\hspace{1em}Graduate, Post Graduate & 81 (20.8\%) & 9 (25.7\%) & 90 (21.2\%)\\
-\hspace{1em}High school & 80 (20.5\%) & 12 (34.3\%) & 92 (21.6\%)\\
-\hspace{1em}some college & 229 (58.7\%) & 14 (40.0\%) & 243 (57.2\%)\\
+\hspace{1em}High school & 16 (24.2\%) & 95 (14.6\%) & 111 (15.5\%)\\
+\hspace{1em}some college & 14 (21.2\%) & 272 (41.9\%) & 286 (40.0\%)\\
+\hspace{1em}Graduate, Post Graduate & 9 (13.6\%) & 100 (15.4\%) & 109 (15.2\%)\\
+\hspace{1em}Missing & 27 (40.9\%) & 182 (28.0\%) & 209 (29.2\%)\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\hypertarget{conclusion}{%
-\section{Conclusion}\label{conclusion}}
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.2083}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1250}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1250}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1250}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1250}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1250}}@{}}
+\caption{Comparions of estimate and 95\% confident intervals and credit
+intervals between Frequentist and Bayesian approach}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Frequentist
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+2.5\%
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+97.5\%
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Vague
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+2.5\%
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+97.5\%
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Frequentist
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+2.5\%
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+97.5\%
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Vague
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+2.5\%
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+97.5\%
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Log Viral Load & -0.037 & -0.946 & 0.873 & -0.035 & -0.916 & 0.852 \\
+CD4+ Count & -186.284 & -248.508 & -124.060 & -186.052 & -247.837 &
+-123.013 \\
+Physical score & -3.319 & -6.015 & -0.623 & -3.307 & -6.069 & -0.610 \\
+Mental score & -1.172 & -4.598 & 2.253 & -1.183 & -4.526 & 2.244 \\
+\end{longtable}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\caption{Estimatae and 95\% Credit interval of Bayesian approach with
+noninformative priors}\tabularnewline
+\toprule\noalign{}
+& Estimate & 2.5\% & 97.5\% \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+& Estimate & 2.5\% & 97.5\% \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Log Viral Load & -0.045358 & -0.9430382 & 0.8793678 \\
+CD4+ Cell Count & -185.667304 & -248.4468299 & -124.5246236 \\
+Physical score & -3.321138 & -6.0445899 & -0.6430269 \\
+Mental score & -1.199944 & -4.6906949 & 2.3279289 \\
+\end{longtable}
 
 \end{document}

@@ -64,3 +64,18 @@ bays_vague_model%>%saveRDS(paste0(working_directory, '/DataProcessed/bays_vague_
 traceplot(bays_noninfo_model[[1]], pars= c('beta', 'sigma_e'))
 traceplot(bays_noninfo_model[[1]], pars= c('beta', 'sigma_e'))
 
+
+bays_noninfo_model <- readRDS(paste0(working_directory,'/DataProcessed/bays_noninfo_model.RDS'))
+bays_vague_model <- readRDS(paste0(working_directory, '/DataProcessed/bays_vague_model.RDS'))
+
+df_noninfo_estimate <- data.frame()
+df_vague_estimate <- data.frame()
+for(i in 1:4){
+  df_noninfo_estimate <- rbind(df_noninfo_estimate, summary(bays_noninfo_model[[i]])$summary[2,c('mean', '2.5%', '97.5%')])
+  df_vague_estimate <- rbind(df_vague_estimate, summary(bays_vague_model[[i]])$summary[2,c('mean', '2.5%', '97.5%')])
+}
+colnames(df_noninfo_estimate) <- c('Estimate', '2.5%', '97.5%')
+colnames(df_vague_estimate) <- c('Estimate', '2.5%', '97.5%')
+df_noninfo_estimate%>%saveRDS(paste0(working_directory,'/DataProcessed/df_noninfo_estimate.RDS'))
+df_vague_estimate%>%saveRDS(paste0(working_directory,'/DataProcessed/df_vague_estimate.RDS'))
+

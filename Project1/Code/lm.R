@@ -1,7 +1,7 @@
 library(openxlsx)
 library(gtsummary)
-
-working_directory <- 'C:/Users/zhushu/OneDrive/Graduate File/Course/Bios6624/BIOS6624-shuai/Project1'
+library(tidyverse)
+working_directory <- 'C:/Users/zhu-s/OneDrive/Graduate File/Course/Bios6624/BIOS6624-shuai/Project1'
 
 df_cleaned <- read.xlsx(paste0(working_directory, '/DataProcessed/cleaned data.xlsx'))
 df_hiv_lm_model <- df_cleaned
@@ -60,5 +60,18 @@ summary(model_list[[3]])
 save_diagnostic(model_list[[3]], 'diagnosis model3.jpg')
 summary(model_list[[4]])
 save_diagnostic(model_list[[4]], 'diagnosis model4.jpg')
+
+
+df_ci <- rbind(confint(model_list[[1]])[2,], confint(model_list[[2]])[2,], confint(model_list[[3]])[2,], confint(model_list[[4]])[2,])%>%as_tibble()%>%
+  mutate_if(is.numeric, round, digits = 3)%>%data.frame()
+
+df_estimate <- data.frame(Estimate= c(coef(model_list[[1]])[2], coef(model_list[[2]])[2], coef(model_list[[3]])[2], coef(model_list[[4]])[2]), 
+           '2.5%' =df_ci[,1] , '97.5.5%' = df_ci[,2])
+colnames(df_estimate) <- c('Estimate', '2.5%', '97.5%')
+rownames(df_estimate) <- c('Log-transformed Viral Load', 'CD4+ T Cell Count at Year 2', 
+                           "Physical Quality of Life at Year 2", "Mental Quality of Life at Year 2")
+df_estimate%>%
+  saveRDS(paste0(working_directory, '/DataProcessed/lm estimate.RDS'))
+
 
 
