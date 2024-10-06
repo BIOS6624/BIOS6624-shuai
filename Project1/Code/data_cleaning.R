@@ -102,7 +102,6 @@ write.xlsx(df_hiv_lm_model, paste0(working_directory, '/DataProcessed/cleaned da
 df_hiv_lm_model%>%mutate(Hard_drugs = case_when(Hard_drugs==1~'Hard drugs use',
                                                 Hard_drugs==0~'No hard drugs use'))%>%
   table1(~VLOAD_year0 + VLOAD_year2 + LEU3N_year0 + LEU3N_year2 + AGG_PHYS_year0 + AGG_PHYS_year2 + AGG_MENT_year0 + AGG_MENT_year2+Age + BMI + Adh + Edu | Hard_drugs, 
-       data = .,caption="Summary of outcomes and predictors stratified by hard drugs")
-#%>%saveRDS(paste0(working_directory, '/Figure/Tableone.RDS'))
+       data = .,caption="Summary of outcomes and predictors stratified by hard drugs")%>%saveRDS(paste0(working_directory, '/Figure/Tableone.RDS'))
 
 

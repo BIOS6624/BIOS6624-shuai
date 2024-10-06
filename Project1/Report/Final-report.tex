@@ -183,16 +183,29 @@ R version 4.4.4 was used for all models.
 \hypertarget{result}{%
 \section{Result}\label{result}}
 
-The percentage of missing data was visualized in figure one. It is
-easily to see that four outcome measurement of treament response at year
-2 and education level had about 30\% missing. Viral load and CD4+ T Cell
-Count at baseline and BMI level had missing range from 3.4\% to 5.9\%.
-Physical quality of life and mental quality of life at Baseline, age and
-adherence had almost no missing. 425 participants was kept after
-removing subject with any missing value. Only 58\% subjects was used for
-analysis. Among those subjects with complete cases, 35(8.2\%)
-participants reported those as hard drugs user. This was shown in
-tableone.
+The percentage of missing data is visualized in Figure 1, where it is
+evident that approximately 30\% of the data is missing for the four
+outcome measurements of treatment response at year 2 and education
+level. Viral load, CD4+ T cell count at baseline, and BMI level had a
+smaller amount of missing data, ranging from 3.4\% to 5.9\%. In
+contrast, physical and mental quality of life at baseline, age, and
+adherence had almost no missing data. After excluding participants with
+any missing values, 425 participants were retained for analysis, which
+constitutes 58\% of the total sample. Among the participants with
+complete cases, 35 (8.2\%) identified as hard drug users. These details
+are summarized in Table 1.
+
+The coefficients for hard drug use from both the frequentist approach
+and the Bayesian approach (with vague priors) are presented in Table 2.
+Both the 95\% confidence interval (frequentist) and the 95\% credible
+interval (Bayesian) are reported to account for uncertainty in the
+estimates. While Table 3 contains the coefficients and credible
+intervals from the Bayesian approach using noninformative priors, the
+estimates from the Bayesian approach with vague priors are closer to the
+frequentist estimates. Therefore, the interpretation focuses on the
+results from the frequentist approach and the Bayesian approach with
+vague priors, without including the noninformative priors in the
+following discussion.
 
 \hypertarget{frequentist}{%
 \subsection{Frequentist}\label{frequentist}}
@@ -204,14 +217,6 @@ suggests that patients who identified as hard drug users at baseline had
 drug users at baseline (95\% CI: (0.39, 2.39), p value = 0.9367). This
 indicates that, on average, hard drug users had a slightly lower viral
 load compared to non-drug users.
-
-After adjusting for baseline CD4+ T cell counts, age, BMI, education
-levels, and adherence, the frequentist multivariable linear regression
-model suggests that patients who identified as hard drug users at
-baseline had 186.284 lower CD4+ T cell counts compared to those who did
-not identify as hard drug users at baseline with the confidence interval
-suggesting that the true difference could range from a reduction of 124
-to 249 CD4+ T cell(p value \textless{} 0.05).
 
 After adjusting for baseline CD4+ T cell counts, age, BMI, education
 levels, and adherence, the frequentist multivariable linear regression
@@ -246,84 +251,134 @@ association between hard drug use and physical quality of life.
 \hypertarget{bayesian}{%
 \subsection{Bayesian}\label{bayesian}}
 
+After adjusting for baseline log viral load, age, BMI, education levels,
+and adherence, the Bayesian multivariable linear regression model using
+vague priors suggests that patients who identified as hard drug users at
+baseline had 0.96 times the viral load compared to those who did not
+identify as hard drug users at baseline (95\% credible interval: 0.40,
+2.34). This indicates that, on average, hard drug users had a slightly
+lower viral load compared to non-drug users, although the wide credible
+interval suggests considerable uncertainty, with the possibility that
+the true effect could range from a substantial reduction to a potential
+increase in viral load.
+
+After adjusting for baseline CD4+ T cell count, age, BMI, education
+levels, and adherence, the Bayesian multivariable linear regression
+model using vague priors suggests that patients who identified as hard
+drug users at baseline had an average 186.05 lower CD4+ T cell count
+compared to those who did not identify as hard drug users at baseline
+(95\% credible interval: -247.84, -123.01). This result indicates a
+significant reduction in CD4+ T cell count among hard drug users, with
+the credible interval suggesting that the true reduction could range
+from 123 to 248 cells, reflecting a meaningful negative impact of hard
+drug use on CD4+ T cell levels.
+
+After adjusting for baseline physical quality of life score, age, BMI,
+education levels, and adherence, the Bayesian multivariable linear
+regression model using vague priors suggests that patients who
+identified as hard drug users at baseline had an average 3.31-point
+lower physical quality of life score compared to those who did not
+identify as hard drug users at baseline (95\% credible interval: -6.07,
+-0.61). This result indicates a significant reduction in physical
+quality of life among hard drug users, with the credible interval
+suggesting that the true reduction could range from 0.61 to 6.07 points,
+reflecting a meaningful negative association between hard drug use and
+physical quality of life.
+
+After adjusting for baseline mental quality of life score, age, BMI,
+education levels, and adherence, the Bayesian multivariable linear
+regression model using noninformative priors suggests that patients who
+identified as hard drug users at baseline had an average 1.18-point
+lower mental quality of life score compared to those who did not
+identify as hard drug users at baseline (95\% credible interval: -4.53,
+2.24). This result suggests a potential reduction in mental quality of
+life among hard drug users, but the wide credible interval, which
+crosses zero, indicates uncertainty about the direction and significance
+of the effect, meaning the true impact could range from a substantial
+reduction to a potential increase in mental quality of life.
+
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
 
-\begin{figure}
-\includegraphics[width=14.08in]{../DataProcessed/missing visulization} \caption{Percentage of Missing Data by Variable}\label{fig:unnamed-chunk-2}
-\end{figure}
+According to the results from both the frequentist approach and the
+Bayesian approach with vague priors, there is no evidence of a
+significant difference in viral load or mental quality of life scores
+between patients with different hard drug use statuses. Similarly, there
+is no evidence of a difference in CD4+ T cell counts or physical quality
+of life scores between hard drug users and non-users. Overall, the
+results from both the frequentist and Bayesian approaches with vague
+priors are consistent and yield similar conclusions.
 
+One limitation of this study is the small proportion of participants who
+reported hard drug use at baseline (only 8.2\%). This low percentage
+reduces the power of the analysis and may hinder the ability to detect
+subtle effects. Collecting more data, particularly from hard drug users,
+would improve the precision of the results and provide a stronger basis
+for drawing conclusions about the impact of hard drug use on treatment
+outcomes.
+
+\newpage
 \begin{table}
 \centering
-\caption{\label{tab:unnamed-chunk-3}Summary of outcomes and predictors stratified by hard drugs}
+\caption{\label{tab:unnamed-chunk-2}Summary of outcomes and predictors stratified by hard drugs}
 \centering
 \fontsize{10}{12}\selectfont
 \begin{tabular}[t]{llll}
 \toprule
   & Hard drugs use & No hard drugs use & Overall\\
 \midrule
- & (N=66) & (N=649) & (N=715)\\
+ & (N=35) & (N=390) & (N=425)\\
 \addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{Viral Load at Baseline}}\\
-\hspace{1em}Mean (SD) & 265000 (609000) & 823000 (10200000) & 771000 (9730000)\\
-\hspace{1em}Median [Min, Max] & 45900 [739, 2520000] & 33700 [1.73, 191000000] & 33800 [1.73, 191000000]\\
-\hspace{1em}Missing & 3 (4.5\%) & 39 (6.0\%) & 42 (5.9\%)\\
+\multicolumn{4}{l}{\textbf{VLOAD\_year0}}\\
+\hspace{1em}Mean (SD) & 204000 (450000) & 1010000 (12100000) & 940000 (11600000)\\
+\hspace{1em}Median [Min, Max] & 29300 [739, 2520000] & 33300 [9.00, 191000000] & 32600 [9.00, 191000000]\\
 \addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{Viral Load at Year 2}}\\
-\hspace{1em}Mean (SD) & 32900 (114000) & 6220 (40800) & 8360 (51100)\\
+\multicolumn{4}{l}{\textbf{VLOAD\_year2}}\\
+\hspace{1em}Mean (SD) & 36500 (120000) & 6060 (42400) & 8560 (53700)\\
 \hspace{1em}Median [Min, Max] & 42.0 [0.740, 424000] & 31.0 [0.247, 711000] & 31.0 [0.247, 711000]\\
-\hspace{1em}Missing & 27 (40.9\%) & 201 (31.0\%) & 228 \vphantom{1} (31.9\%)\\
 \addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{CD4+ T Cell Count at Baseline}}\\
-\hspace{1em}Mean (SD) & 335 (187) & 385 (211) & 380 (210)\\
-\hspace{1em}Median [Min, Max] & 301 [10.9, 778] & 363 [10.9, 1220] & 361 [10.9, 1220]\\
-\hspace{1em}Missing & 0 (0\%) & 24 (3.7\%) & 24 (3.4\%)\\
+\multicolumn{4}{l}{\textbf{LEU3N\_year0}}\\
+\hspace{1em}Mean (SD) & 361 (204) & 377 (197) & 376 (197)\\
+\hspace{1em}Median [Min, Max] & 453 [10.9, 650] & 361 [12.4, 1220] & 361 [10.9, 1220]\\
 \addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{CD4+ T Cell Count at Year 2}}\\
-\hspace{1em}Mean (SD) & 366 (240) & 560 (265) & 544 (268)\\
-\hspace{1em}Median [Min, Max] & 348 [60.0, 971] & 537 [39.5, 1730] & 516 [39.5, 1730]\\
-\hspace{1em}Missing & 27 (40.9\%) & 201 (31.0\%) & 228 (31.9\%)\\
+\multicolumn{4}{l}{\textbf{LEU3N\_year2}}\\
+\hspace{1em}Mean (SD) & 372 (252) & 565 (258) & 549 (263)\\
+\hspace{1em}Median [Min, Max] & 357 [60.0, 971] & 544 [39.5, 1730] & 529 [39.5, 1730]\\
 \addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{Physical Quality of Life at Baseline}}\\
-\hspace{1em}Mean (SD) & 44.8 (9.58) & 50.7 (9.37) & 50.1 (9.54)\\
-\hspace{1em}Median [Min, Max] & 45.3 [27.0, 62.9] & 53.3 [19.2, 69.0] & 52.8 [19.2, 69.0]\\
-\hspace{1em}Missing & 0 (0\%) & 2 (0.3\%) & 2 \vphantom{1} (0.3\%)\\
+\multicolumn{4}{l}{\textbf{AGG\_PHYS\_year0}}\\
+\hspace{1em}Mean (SD) & 48.8 (6.86) & 51.5 (8.67) & 51.3 (8.56)\\
+\hspace{1em}Median [Min, Max] & 46.7 [31.4, 62.9] & 53.7 [22.4, 69.0] & 53.5 [22.4, 69.0]\\
 \addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{Physical Quality of Life at Year 2}}\\
-\hspace{1em}Mean (SD) & 43.8 (11.6) & 49.9 (10.0) & 49.4 (10.2)\\
-\hspace{1em}Median [Min, Max] & 43.2 [18.2, 63.9] & 53.3 [14.8, 69.1] & 53.0 [14.8, 69.1]\\
-\hspace{1em}Missing & 27 (40.9\%) & 188 (29.0\%) & 215 \vphantom{1} (30.1\%)\\
+\multicolumn{4}{l}{\textbf{AGG\_PHYS\_year2}}\\
+\hspace{1em}Mean (SD) & 44.4 (12.1) & 50.0 (9.94) & 49.5 (10.2)\\
+\hspace{1em}Median [Min, Max] & 45.5 [18.2, 63.9] & 53.3 [14.8, 68.9] & 53.2 [14.8, 68.9]\\
 \addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{Mental Quality of Life at Baseline}}\\
-\hspace{1em}Mean (SD) & 43.4 (12.4) & 45.6 (13.4) & 45.4 (13.3)\\
-\hspace{1em}Median [Min, Max] & 46.6 [20.8, 59.6] & 49.7 [7.23, 69.8] & 49.3 [7.23, 69.8]\\
-\hspace{1em}Missing & 0 (0\%) & 2 (0.3\%) & 2 (0.3\%)\\
+\multicolumn{4}{l}{\textbf{AGG\_MENT\_year0}}\\
+\hspace{1em}Mean (SD) & 42.6 (11.3) & 44.9 (13.9) & 44.7 (13.7)\\
+\hspace{1em}Median [Min, Max] & 45.1 [22.9, 59.6] & 49.3 [7.23, 66.0] & 48.9 [7.23, 66.0]\\
 \addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{Mental Quality of Life at Year 2}}\\
-\hspace{1em}Mean (SD) & 45.9 (13.5) & 47.6 (11.8) & 47.5 (11.9)\\
-\hspace{1em}Median [Min, Max] & 47.6 [21.3, 65.3] & 51.5 [10.5, 66.7] & 51.2 [10.5, 66.7]\\
-\hspace{1em}Missing & 27 (40.9\%) & 188 (29.0\%) & 215 (30.1\%)\\
+\multicolumn{4}{l}{\textbf{AGG\_MENT\_year2}}\\
+\hspace{1em}Mean (SD) & 46.2 (14.2) & 47.7 (11.6) & 47.6 (11.8)\\
+\hspace{1em}Median [Min, Max] & 49.6 [21.3, 65.3] & 51.2 [10.5, 66.7] & 51.2 [10.5, 66.7]\\
 \addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{Age (years)}}\\
-\hspace{1em}Mean (SD) & 43.7 (9.85) & 42.4 (9.38) & 42.6 (9.42)\\
-\hspace{1em}Median [Min, Max] & 45.5 [26.0, 61.0] & 42.0 [19.0, 73.0] & 42.0 [19.0, 73.0]\\
+\multicolumn{4}{l}{\textbf{Age}}\\
+\hspace{1em}Mean (SD) & 44.2 (9.43) & 43.0 (8.82) & 43.1 (8.86)\\
+\hspace{1em}Median [Min, Max] & 47.0 [29.0, 61.0] & 43.0 [20.0, 73.0] & 43.0 [20.0, 73.0]\\
 \addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{Body Mass Index (kg/m²)}}\\
-\hspace{1em}Healthy & 41 (62.1\%) & 309 (47.6\%) & 350 (49.0\%)\\
-\hspace{1em}Obsese & 5 (7.6\%) & 81 (12.5\%) & 86 (12.0\%)\\
-\hspace{1em}Overweight & 13 (19.7\%) & 210 (32.4\%) & 223 (31.2\%)\\
-\hspace{1em}Underweight & 7 (10.6\%) & 22 (3.4\%) & 29 (4.1\%)\\
-\hspace{1em}Missing & 0 (0\%) & 27 (4.2\%) & 27 (3.8\%)\\
+\multicolumn{4}{l}{\textbf{BMI}}\\
+\hspace{1em}Healthy & 25 (71.4\%) & 192 (49.2\%) & 217 (51.1\%)\\
+\hspace{1em}Obsese & 2 (5.7\%) & 47 (12.1\%) & 49 (11.5\%)\\
+\hspace{1em}Overweight & 7 (20.0\%) & 138 (35.4\%) & 145 (34.1\%)\\
+\hspace{1em}Underweight & 1 (2.9\%) & 13 (3.3\%) & 14 (3.3\%)\\
 \addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{Adherence Level}}\\
-\hspace{1em}Mean (SD) & 0.576 (0.498) & 0.641 (0.480) & 0.635 (0.482)\\
-\hspace{1em}Median [Min, Max] & 1.00 [0, 1.00] & 1.00 [0, 1.00] & 1.00 [0, 1.00]\\
+\multicolumn{4}{l}{\textbf{Adh}}\\
+\hspace{1em}Mean (SD) & 1.00 (0) & 0.897 (0.304) & 0.906 (0.292)\\
+\hspace{1em}Median [Min, Max] & 1.00 [1.00, 1.00] & 1.00 [0, 1.00] & 1.00 [0, 1.00]\\
 \addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{Education Level}}\\
-\hspace{1em}High school & 16 (24.2\%) & 95 (14.6\%) & 111 (15.5\%)\\
-\hspace{1em}some college & 14 (21.2\%) & 272 (41.9\%) & 286 (40.0\%)\\
-\hspace{1em}Graduate, Post Graduate & 9 (13.6\%) & 100 (15.4\%) & 109 (15.2\%)\\
-\hspace{1em}Missing & 27 (40.9\%) & 182 (28.0\%) & 209 (29.2\%)\\
+\multicolumn{4}{l}{\textbf{Edu}}\\
+\hspace{1em}Graduate, Post Graduate & 9 (25.7\%) & 81 (20.8\%) & 90 (21.2\%)\\
+\hspace{1em}High school & 12 (34.3\%) & 80 (20.5\%) & 92 (21.6\%)\\
+\hspace{1em}some college & 14 (40.0\%) & 229 (58.7\%) & 243 (57.2\%)\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -399,5 +454,9 @@ CD4+ Cell Count & -185.667304 & -248.4468299 & -124.5246236 \\
 Physical score & -3.321138 & -6.0445899 & -0.6430269 \\
 Mental score & -1.199944 & -4.6906949 & 2.3279289 \\
 \end{longtable}
+
+\begin{figure}
+\includegraphics[width=14.08in]{../DataProcessed/missing visulization} \caption{Percentage of Missing Data by Variable}\label{fig:unnamed-chunk-4}
+\end{figure}
 
 \end{document}
