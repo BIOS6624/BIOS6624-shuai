@@ -1,0 +1,38 @@
+---
+title: "Project 1 Final report"
+author: Shuai Zhu
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+    latex_engine: pdflatex
+    keep_tex: true
+    number_sections: true
+    fig_caption: true
+fontsize: 12pt
+geometry: "margin=1in"
+header-includes:
+   - \usepackage{setspace}
+   #- \onehalfspacing
+   - \doublespacing
+---
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+</style>
+
+
+# Introduction
+
+To understand the effect of physical activity on 7-year all-cause mortality, the proposed grant application outlines a randomized trial to investigate a novel intervention called “ACTUP.” This intervention is designed to increase physical activity by a fixed 30% (individual-specific) among sedentary older adults. Participants will be asked to wear wrist-worn accelerometers for 7 days to objectively measure their physical activity levels. Activity will be evaluated using the Total Monitor Independent Movement Summary (TMIMS), calculated as the mean value over the 7-day period. 
+
+The study has two primary aims. First Aim is to determine whether the ACTUP intervention leads to a reduction in the risk of 7-year all-cause mortality (the primary endpoint) in sedentary adults aged 60-75 at the group-average level. The second Aim is to explore whether the efficacy of the ACTUP intervention is moderated by gender, assessing if there are gender-specific differences in the treatment effect.
+
+# Method
+
+For Hypothesis 1, we will test whether the ACTUP intervention leads to a reduction in the risk of 7-year all-cause mortality in sedentary adults aged 60-75 using logistic regression. The binary outcome will be whether the person died within the 7-year follow-up period , and the treatment group (ACTUP vs. control) will be used as the main predictor.
+
+To evaluate whether the efficacy of the ACTUP intervention is moderated by gender, a second logistic regression model will be used, with mortality as the outcome and treatment, gender, and their interaction term as predictors. This model will help assess if there are significant gender-specific differences in treatment effect.
+
+For both aims, we will estimate the sample size required to achieve 80% statistical power at a significance level of 0.05.
+

@@ -81,6 +81,7 @@ According to the results from both the frequentist approach and the Bayesian app
 One limitation of this study is the small proportion of participants who reported hard drug use at baseline (only 8.2%). This low percentage reduces the power of the analysis and may hinder the ability to detect subtle effects. Collecting more data, particularly from hard drug users, would improve the precision of the results and provide a stronger basis for drawing conclusions about the impact of hard drug use on treatment outcomes.
 
 \newpage
+
 ```{r, echo = F}
 t1kable(readRDS(paste0(working_directory, '/Figure/Tableone.RDS')))%>%
   kable_styling(font_size = 10)
@@ -115,4 +116,6 @@ df_noninfo_estimate%>%knitr::kable(caption = 'Estimatae and 95% Credit interval 
 knitr::include_graphics(paste0(working_directory, '/DataProcessed/missing visulization.png'))
 ```
 
+# Appendix
 
+All analyis was done by my own. 
