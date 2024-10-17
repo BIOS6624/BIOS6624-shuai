@@ -71,7 +71,7 @@
 
 \title{Project 1 Final report}
 \author{Shuai Zhu}
-\date{2024-10-15}
+\date{2024-10-17}
 
 \begin{document}
 \maketitle
@@ -99,11 +99,36 @@ gender-specific differences in the treatment effect.
 \hypertarget{method}{%
 \section{Method}\label{method}}
 
-For Hypothesis 1, we will test whether the ACTUP intervention leads to a
+\hypertarget{data-cleaning}{%
+\subsection{data cleaning}\label{data-cleaning}}
+
+Data were filtered to include participants aged between 60 and 75.
+Sedentary status was defined as being below the 25th percentile of the
+total MIMS distribution. Participants with a follow-up time of less than
+7 years were excluded from the analysis. For this analysis, individuals
+who died after 7 years from the start of the study were considered
+alive.
+
+\hypertarget{data-analysis}{%
+\subsection{data analysis}\label{data-analysis}}
+
+For Aim 1, we will test whether the ACTUP intervention leads to a
 reduction in the risk of 7-year all-cause mortality in sedentary adults
-aged 60-75 using logistic regression. The binary outcome will be whether
-the person died within the 7-year follow-up period , and the treatment
-group (ACTUP vs.~control) will be used as the main predictor.
+aged 60-75 using a logistic regression model. The binary outcome will be
+whether the individual died within the 7-year follow-up period, and the
+primary predictor will be the treatment group (ACTUP vs.~control).
+
+To simulate differences in mortality, the coefficient for gender from a
+logistic regression model using the NHANES dataset will be utilized.
+This model will have mortality as the outcome and gender as the
+predictor. The simulated data will include sample sizes ranging from 100
+to 2000, increasing in increments of 100. Each simulated sample will
+maintain a 1:1 ratio of men to women and a 1:1 ratio of control to
+treatment groups. The simulated data will then be fitted to a multiple
+variable logistic regression model, with mortality as the outcome and
+treatment and gender as predictors. This process will be repeated 10,000
+times, and the power will be calculated as the proportion of iterations
+that yield a statistically significant result, divided by 10,000.
 
 To evaluate whether the efficacy of the ACTUP intervention is moderated
 by gender, a second logistic regression model will be used, with
