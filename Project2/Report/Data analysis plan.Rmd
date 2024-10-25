@@ -1,26 +1,20 @@
 ---
-title: "Project 1 Final report"
+title: "Project 2 Data analysis plan"
 author: Shuai Zhu
 date: "`r Sys.Date()`"
-output: 
-  pdf_document:
-    latex_engine: pdflatex
-    keep_tex: true
-    number_sections: true
-    fig_caption: true
 fontsize: 12pt
 geometry: "margin=1in"
+mainfont: Times New Roman
+output:
+  pdf_document:
+    latex_engine: pdflatex
+    keep_tex: false
+    number_sections: true
+    fig_caption: true
 header-includes:
-   - \usepackage{setspace}
-   #- \onehalfspacing
-   - \doublespacing
+  - \usepackage{setspace}
+  - \doublespacing
 ---
-<style>
-  body {
-    font-family: Arial, sans-serif;
-  }
-</style>
-
 
 # Introduction
 
