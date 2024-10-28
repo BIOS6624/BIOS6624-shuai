@@ -43,10 +43,11 @@ Mortality in the simulated data will be modeled as a binary variable, with the p
 The right side of Figure 1 shows that an interaction coefficient of -0.63 is the maximum required to achieve 80% power at a significance level of 0.05, assuming the intervention reduces the probability of 7-year all-cause mortality risk by 7%.
 
 # CONCLUSION
-The power analyses indicate that a sample size of 1,510 is sufficient for Aim 1 and interaction coefficient of -0.63 is sufficient for Aim2 to achieve 80% power at a significance level of 0.05. By integrating parallel computing into this project, we can achieve faster, more efficient, and more comprehensive findings. 
+The power analyses indicate that a sample size of 1,510 is sufficient for Aim 1 and interaction coefficient of -0.63 is sufficient for Aim2 to achieve 80% power at a significance level of 0.05. By integrating parallel computing into this project, we can achieve faster, more efficient, and more comprehensive findings. One issue I encountered while running the code is that I couldn't implement a progress bar for parallel computing.
+
 
 ```{r,echo = F,out.width="49%", fig.show='hold',fig.align='center', fig.cap = 'The figure for Aim 1 is a line chart illustrating the relationship between sample size and power, showing how power varies across different sample sizes. The figure for Aim 2 is a line chart displaying the power corresponding to different values of the interaction coefficient (b3) for gender and treatment group, highlighting the impact of varying interaction effects on power.'}
-working_directory <- 'C:/Users/zhu-s/OneDrive/Graduate File/Course/Bios6624/BIOS6624-shuai/Project2'
+working_directory <- 'C:/Users/zhushu/OneDrive/Graduate File/Course/Bios6624/BIOS6624-shuai/Project2'
 
 knitr::include_graphics(paste0(working_directory, '/Figure/Aim 1 line chart of sample size and power.png'))
 knitr::include_graphics(paste0(working_directory, '/Figure/Aim 2 line chart of b3 and power.png'))
@@ -54,13 +55,5 @@ knitr::include_graphics(paste0(working_directory, '/Figure/Aim 2 line chart of b
 ```
 
 
-\newpage
 # APPENDIX
-
-
-
-
-
-
-
-
+All analysis was done by my own. 

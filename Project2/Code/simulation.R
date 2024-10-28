@@ -2,9 +2,6 @@ library(tidyverse)
 library(plyr)
 library(parallel)
 
-## set the working directory
-working_directory <- 'C:/Users/zhu-s/OneDrive/Graduate File/Course/Bios6624/BIOS6624-shuai/Project2'
-setwd(working_directory)
 ## read cleaned data
 df_filtered <- readRDS(paste0(working_directory, '/DataProcessed/cleaned data.RDS'))
 df_filtered$gender <- relevel(df_filtered$gender, ref = 'Female')

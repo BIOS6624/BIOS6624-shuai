@@ -118,4 +118,4 @@ knitr::include_graphics(paste0(working_directory, '/DataProcessed/missing visuli
 
 # Appendix
 
-All analyis was done by my own. 
+All analysis was done by my own. 
