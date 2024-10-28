@@ -31,7 +31,7 @@ b2 <- b2_vec[which.min(abs(b2_p_diff-0.07))]
 
 
 ## aim 1 simulation
-simulate_power <- function(sample_size, iterations = 1000, alpha = 0.05) {
+simulate_power <- function(sample_size, iterations = 10000, alpha = 0.05) {
   significant_results <- 0
   for (i in 1:iterations) {
     # simulate data
@@ -72,13 +72,14 @@ results%>%
   geom_point()+
   geom_line()+
   geom_hline(yintercept = 0.8)+
-  ggtitle("Aim 1: line chart of sample size and power")
+  ggtitle("Aim 1: line chart of sample size and power")+xlab('Sample size')
+ggsave('Figure/Aim 1 line chart of sample size and power.png',dpi = 900, height = 10, width = 10, unit = 'in')
 results%>%saveRDS('DataProcessed/simulation results aim1.RDS')
 ## aim 2 simulation start here
 
-sample_size_aim2 <- 1500
+sample_size_aim2 <- 1510
 ## function of simulating aim2
-simulate_power_aim2 <- function(b3, iterations = 1000, alpha = 0.05) {
+simulate_power_aim2 <- function(b3, iterations = 10000, alpha = 0.05) {
   significant_results <- 0
   for (i in 1:iterations) {
     # simulate data
@@ -121,8 +122,8 @@ results_aim2%>%
   geom_point()+
   geom_line()+
   geom_hline(yintercept = 0.8)+
-  ggtitle("Aim 2: line chart of b3 and power")
-
+  ggtitle("Aim 2: line chart of b3 and power")+xlab('Coefficient of interaction term')
+ggsave('Figure/Aim 2 line chart of b3 and power.png',dpi = 900, height = 10, width = 10, unit = 'in')
 
 
 
