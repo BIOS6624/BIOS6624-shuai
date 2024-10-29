@@ -123,5 +123,6 @@ results_aim2%>%
 ggsave('Figure/Aim 2 line chart of b3 and power.png',dpi = 900, height = 10, width = 10, unit = 'in')
 
 
-
+P_treat_male <- 1/(1+exp(-(-0.48+0.227-0.3004-0.63)))
+P_treat_female <- 1/(1+exp(-(-0.48-0.3004)))
 
