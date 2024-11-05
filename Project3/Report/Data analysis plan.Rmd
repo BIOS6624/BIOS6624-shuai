@@ -1,0 +1,33 @@
+---
+title: "Project 2 Data analysis plan"
+author: Shuai Zhu
+date: "`r Sys.Date()`"
+fontsize: 12pt
+geometry: "margin=1in"
+mainfont: Times New Roman
+output:
+  pdf_document:
+    latex_engine: pdflatex
+    keep_tex: false
+    number_sections: true
+    fig_caption: true
+header-includes:
+  - \usepackage{setspace}
+  - \doublespacing
+---
+
+
+# Introduction
+The National Health and Nutrition Examination Survey (NHANES) is a program of studies aimed at assessing the health and nutritional status of adults and children in the United States. This project leverages the NHANES 2011-2014 dataset, which provides data on physical activity, mortality, and various demographic factors. The primary objective is to identify risk factors associated with all-cause mortality and to evaluate the relative predictive and discriminative value of several activity and circadian features derived from wearable accelerometers.
+
+# Method
+
+## Data cleaning
+
+After filtering for participants aged 40 to 80 with at least three valid days of accelerometer data, the dataset was further narrowed down to complete cases for subsequent analysis. This resulted in a reduction from 19,141 subjects to 5,564 subjects.
+
+## Data analysis
+
+
+
+
