@@ -28,6 +28,11 @@ After filtering for participants aged 40 to 80 with at least three valid days of
 
 ## Data analysis
 
+The analysis will utilize time-to-event methods to account for potential non-linear associations. Both univariate and multivariate Cox proportional hazards models will be employed to assess the impact of various physical activity metrics on mortality risk. In the multivariate Cox model, each physical activity measure will be included alongside other covariates, including BMI, age, and medical history of congestive heart failure and coronary heart disease. Both linear and non-linear relationships between physical activity metrics and mortality will be explored. Non-linear associations will be assessed using penalized splines (psplines) to capture complex patterns. Separate models will be fitted for males and females to account for potential gender differences in these associations.
+
+Model performance will be evaluated using 10-fold cross-validation, with the average concordance index (C-index) used to rank the predictive accuracy of the models. All analysis will be conducted in R 4.3.3
+
+
 
 
 

@@ -16,3 +16,5 @@ df_cleaned <- df%>%select(SEQN,age_years_interview, n_good_days, permth_exm, dia
   filter(age_years_interview>=40, age_years_interview<=80, n_good_days>=3)%>%drop_na()
 
 df_cleaned%>%saveRDS('DataProcessed/cleaned data.RDS')
+
+
