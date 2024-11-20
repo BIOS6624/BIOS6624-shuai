@@ -1,4 +1,5 @@
 library(caret)
+library(mgcv)
 ## read cleaned data
 
 df_cleaned <- readRDS('DataProcessed/cleaned data.RDS')
@@ -20,10 +21,10 @@ model_fomula <- c(paste0('permth_exm~',mims_variable),
 
 train_control <- trainControl(method = "cv", number = 10)
 train(model_fomula[1], 
-               data = df_cleaned, 
-               method = "gam", 
-               trControl = train_control,
-               weights = df_cleaned$mortstat, 
-               family = cox.ph(), 
-               method = "REML")
+      data = df_cleaned,
+      trControl = train_control,
+      method = "gam", 
+      weights = df_cleaned$mortstat, 
+      family = cox.ph(), 
+      method = "REML")
 
