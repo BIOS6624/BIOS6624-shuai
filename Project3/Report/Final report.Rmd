@@ -1,0 +1,67 @@
+---
+title: "Project 3 Final report"
+author: Shuai Zhu
+date: "`r Sys.Date()`"
+fontsize: 12pt
+geometry: "margin=1in"
+mainfont: Times New Roman
+output:
+  pdf_document:
+    latex_engine: pdflatex
+    keep_tex: false
+    number_sections: false
+    fig_caption: true
+header-includes:
+  - \usepackage{setspace}
+  - \doublespacing
+---
+
+
+
+# Introduction  
+The National Health and Nutrition Examination Survey (NHANES) is a comprehensive program designed to evaluate the health and nutritional status of adults and children across the United States. As part of its mission, NHANES collects extensive data on various health determinants, including physical activity, chronic diseases, and mortality. This project utilizes the NHANES 2011-2014 dataset, focusing on physical activity metrics, mortality outcomes, and demographic factors. Specifically, the dataset includes accelerometer-derived measures of physical activity such as total MIMS (monitor-independent movement summary), L5 MIMS, and RA MIMS .
+
+The primary objective of this study is to assess and rank the predictive performance of these physical activity metrics on mortality outcomes. The analysis considers both linear and non-linear associations between activity metrics and mortality and incorporates sex-stratified models to account for potential gender-specific differences in these relationships.
+
+# Method  
+
+## Data Cleaning  
+Participants aged 40 to 80 years with at least three valid days of accelerometer data were included in the analysis. Further filtering to ensure complete cases across all relevant variables narrowed the dataset from an initial 19,141 participants to 5,564 participants. This cleaning process ensured that the analysis would not be confounded by missing data or insufficient physical activity records.  
+
+## Data Analysis  
+Time-to-event methods were employed to evaluate the relationship between physical activity and mortality, accounting for potential non-linear associations. Cox proportional hazards models, both univariable and multivariable, were used to quantify these relationships. In the multivariable models, each physical activity metric was included alongside covariates such as BMI, age, and self-reported diagnoses of congestive heart failure and coronary heart disease. The non-linear associations were assessed using penalized splines (psplines) to capture potential complex patterns in the data.  
+
+Separate models were fitted for males and females to address possible gender-specific differences in the association between physical activity and mortality. Predictive performance of the models was evaluated using 10-fold cross-validation, with the concordance index (C-index) serving as the metric to rank their accuracy. All analyses were conducted using R version 4.3.3. The linear and non-linear Cox models were implemented using the `mgcv` package, and the concordance indices were calculated using the `survival` package.  
+
+# Results  
+Table 1 summarizes the demographic characteristics and physical activity metrics for included and excluded participants, stratified by gender. Participants excluded from the analysis had fewer than three valid accelerometer days or missing values for physical activity and demographic variables. The distribution of total MIMS, L5 MIMS, and RA MIMS was similar across included and excluded groups, though the mortality rate was slightly higher among excluded participants. These small differences are unlikely to affect the validity of the Cox proportional hazards model.  
+
+Table 2 presents the ranking of univariable and multivariable Cox models, both linear and non-linear, for each physical activity metric, stratified by gender. Among males, multivariable models generally outperformed univariable models in terms of predictive accuracy. Across all models, total MIMS consistently demonstrated the highest predictive performance, followed by RA MIMS, with L5 MIMS performing the worst. The concordance indices of linear and non-linear models for each physical activity metric were comparable, suggesting that non-linear associations do not significantly improve predictive performance.  
+
+The results for females mirrored those observed in males. Total MIMS remained the most predictive metric, followed by RA MIMS and L5 MIMS. There was no evidence to suggest that incorporating non-linear splines enhanced the predictive performance of the models. These findings underscore the utility of total MIMS as the most robust physical activity measure for predicting mortality, with no added benefit from non-linear modeling approaches.  
+
+# Conclusion  
+This study leveraged accelerometer-derived physical activity metrics from the NHANES 2011-2014 dataset to evaluate their predictive performance for mortality using both linear and non-linear Cox proportional hazards models. The findings highlight that total MIMS consistently demonstrated the strongest predictive performance for mortality among both males and females, outperforming other activity metrics such as RA MIMS and L5 MIMS. Multivariable models generally provided better predictive accuracy than univariable models, suggesting the importance of adjusting for covariates such as BMI, age, and pre-existing conditions. Furthermore, the results indicated that non-linear modeling approaches using penalized splines did not significantly improve predictive performance compared to linear models.
+
+Despite these findings, the study has several limitations. the study did not account for potential residual confounding from unmeasured factors such as dietary habits, socioeconomic status, or genetic predispositions, which could influence both physical activity and mortality. Lastly, while the stratification by gender addressed potential sex-specific differences, other intersectional factors, such as race or ethnicity, were not explored. Future research could address these limitations by incorporating additional demographic and behavioral variable. This would provide a more comprehensive understanding of the relationship between physical activity and mortality and improve the applicability of findings across diverse populations.
+
+
+
+```{r, echo = F, message=F}
+library(kableExtra)
+library(table1)
+t1kable(readRDS('../Figure/table1.RDS'))%>%
+  kable_styling(font_size = 10)
+
+```
+
+\newpage
+```{r,echo = F, message=F}
+
+readRDS('../Figure/concordance table.RDS')%>%
+  kableExtra::kable(caption = 'Ranking of Concordance by male and female',
+                    col.names = c('Rank','Model','Concordance','Model','Concordance'))%>%
+  add_header_above(c('', "Male" = 2, "Female" = 2))%>%
+  kable_styling(font_size = 10)
+```
+
