@@ -1,5 +1,8 @@
-library(tidyverse)
-library(lme4)
+
+
+library(tidyverse);library(lme4)
+
+
 ## set working directory
 working_directory <- 'C:/Users/zhu-s/OneDrive/Graduate File/Course/Bios6624/BIOS6624-shuai/Project4'
 setwd(working_directory)
@@ -11,10 +14,7 @@ df_lmer <- df%>%
          cos_s = cos(4*pi*sind))
 
 
-fit.lmer <- glmer(Y ~trt*sin_s+(sin_s-1|ID)+(cos_s-1|ID), 
-                  data = df_lmer, family = poisson)
 
-summary(fit.lmer)
 
 
 
