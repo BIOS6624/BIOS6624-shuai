@@ -110,6 +110,7 @@ clusterExport(cl, "simulate_power_aim2")
 clusterExport(cl, "sample_size_aim2")
 b3 = seq(-1,0, by =0.01)
 power_aim2 <- parSapply(cl, b3, simulate_power_aim2)
+
 results_aim2 <- tibble(b3, power_aim2)
 stopCluster(cl)
 results_aim2%>%saveRDS('DataProcessed/simulation results aim2.RDS')

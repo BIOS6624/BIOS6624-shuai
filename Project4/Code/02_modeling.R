@@ -97,10 +97,11 @@ one_interation <- function(i){
   vbeta_hat_misspecified_mean_re_i <- vcov(fit_misspecified_mean_re_i)
   res_misspecified_mean_re <- store_results(Xmat, vbeta_hat_misspecified_mean_re_i, eta_hat_misspecified_mean_re_i)
   
-  cbind(res_correct, res_misspecified_re, res_misspecified_mean_re)
+  res_matrix <- cbind(res_correct, res_misspecified_re, res_misspecified_mean_re)
+  return(res_matrix)
 }
 ### multithread simulation
-
+a <- one_interation()
 cl <- makeCluster(detectCores())
 clusterEvalQ(cl,{
   set.seed(1234)
@@ -120,7 +121,7 @@ clusterExport(cl, "store_results")
 clusterExport(cl, "one_interation")
 
 start <- Sys.time()
-res_list <- parSapply(cl, 1:8, one_interation)
+res_list <- parLapply(cl, 1:4, one_interation)
 end <- Sys.time()
 end-start
 
