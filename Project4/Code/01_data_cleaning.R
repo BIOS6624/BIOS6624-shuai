@@ -1,6 +1,6 @@
 
 
-library(tidyverse);library(lme4)
+library(tidyverse);library(lme4);library(parallel)
 
 
 ## set working directory

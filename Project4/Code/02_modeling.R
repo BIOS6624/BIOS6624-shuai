@@ -1,3 +1,5 @@
+
+
 df_Q1 <- df_lmer
 ## fit the correct glmer model with random slope
 fit_glmm <- glmer(Y ~ trt*sin_s + (sin_s - 1|ID) + (cos_s - 1|ID), 
@@ -39,23 +41,24 @@ df_sim <-
          cos_s = cos(4*pi*sind))
 
 
-store_results <- function(res,Xmat, vbeta_hat,eta_hat, model_name,i){
+store_results <- function(Xmat, vbeta_hat,eta_hat){
   SE_correct_i <- sqrt(diag(Xmat %*% vbeta_hat %*% t(Xmat)) )
   LB_correct_i <- eta_hat - qnorm(0.975)*SE_correct_i
   UB_correct_i <- eta_hat + qnorm(0.975)*SE_correct_i
-  
+  res <- matrix(rep(NA, 3000), ncol = 3)
   ## store results
-  res[i,,model_name,1] <- (eta_hat - true_effect)^2
-  res[i,,model_name,2] <- eta_hat - true_effect
-  res[i,,model_name,3] <- as.numeric(LB_correct_i < true_effect & UB_correct_i > true_effect)
+  
+  res[,1] <- (eta_hat - true_effect)^2
+  res[,2] <- eta_hat - true_effect
+  res[,3] <- as.numeric(LB_correct_i < true_effect & UB_correct_i > true_effect)
   res
 }
 
 ## progress bar
-pb <- txtProgressBar(0, nsim, style=3)
+
 set.seed(123)
 #for(i in 1:nsim){
-for(i in 1:nsim){
+one_interation <- function(i){
   ## simulate data
   bi1_i <- rnorm(N, mean=0, sd=sqrt(s2_b1))
   bi2_i <- rnorm(N, mean=0, sd=sqrt(s2_b2))
@@ -70,37 +73,54 @@ for(i in 1:nsim){
   ## fit the models
   fit_correct_i <- glmer(Y ~ trt*sin_s + (sin_s - 1|ID) + (cos_s - 1|ID), 
                          family=poisson, data=df_i)
-  fit_misspecified_re_i <- glmer(Y ~ trt*sin_s + (1+sin_s|ID) + (1+cos_s|ID), 
-                                 family=poisson, data=df_i)
-  fit_misspecified_mean_re_i <- glmer(Y ~ trt+sin_s + (sin_s|ID) + (cos_s|ID), 
-                                      family=poisson, data=df_i)
-  
-  ## get estimated coefficients
-  # \hat{treatment effect}(s)
   eta_hat_correct_i <- fit_correct_i@beta[2] + fit_correct_i@beta[4]*sin(2*pi*sind_pred)
-  
-  # test something
-  ### correct model
   Xmat <- cbind(rep(0, n_spred), 
                 rep(1, n_spred),
                 rep(0, n_spred),
                 sin(2*pi*sind_pred))
   vbeta_hat_correct_i <- vcov(fit_correct_i)
-  results_arr <- store_results(results_arr, Xmat, vbeta_hat_correct_i, eta_hat_correct_i, "correct",i)
+  res_correct <- store_results( Xmat, vbeta_hat_correct_i, eta_hat_correct_i )
+  
   ### misspecified random effect model
+  fit_misspecified_re_i <- glmer(Y ~ trt*sin_s + (1+sind|ID) , 
+                                 family=poisson, data=df_i)
+
   eta_hat_misspecified_re_i <- fit_misspecified_re_i@beta[2] + fit_misspecified_re_i@beta[4]*sin(2*pi*sind_pred)
   vbeta_hat_misspecified_re_i <- vcov(fit_misspecified_re_i)
-  results_arr <- store_results(results_arr, Xmat, vbeta_hat_misspecified_re_i, eta_hat_misspecified_re_i,"misspecified_re",i)
-  ### misspecified mean random effect model
-  Xmat_no_inter <- cbind(rep(0, n_spred), 
-                         rep(1, n_spred),
-                         rep(0, n_spred))
-  eta_hat_misspecified_mean_re_i <- fit_misspecified_re_i@beta[2]
-  vbeta_hat_misspecified_mean_re_i <- vcov(fit_misspecified_mean_re_i)
-  results_arr <- store_results(results_arr, Xmat_no_inter, vbeta_hat_misspecified_mean_re_i,eta_hat_misspecified_mean_re_i, "misspecified_mean_re",i)
   
-  setTxtProgressBar(pb,i)
+  res_misspecified_re <- store_results(Xmat, vbeta_hat_misspecified_re_i, eta_hat_misspecified_re_i)
+  
+  ### misspecified mean random effect model
+  fit_misspecified_mean_re_i <- glmer(Y ~ trt*sind + (1+sind|ID), 
+                                      family=poisson, data=df_i)
+  eta_hat_misspecified_mean_re_i <- fit_misspecified_mean_re_i@beta[2]+ fit_misspecified_mean_re_i@beta[4]*sin(2*pi*sind_pred)
+  vbeta_hat_misspecified_mean_re_i <- vcov(fit_misspecified_mean_re_i)
+  res_misspecified_mean_re <- store_results(Xmat, vbeta_hat_misspecified_mean_re_i, eta_hat_misspecified_mean_re_i)
+  
+  cbind(res_correct, res_misspecified_re, res_misspecified_mean_re)
 }
+### multithread simulation
 
+cl <- makeCluster(detectCores())
+clusterEvalQ(cl,{
+  set.seed(1234)
+  library(dplyr)
+  library(lme4)
+  NULL
+})
+clusterExport(cl, "N")
+clusterExport(cl, "sind_pred")
+clusterExport(cl, "s2_b1")
+clusterExport(cl, "s2_b2")
+clusterExport(cl, "beta_vec")
+clusterExport(cl, "df_sim")
+clusterExport(cl, "n_spred")
+clusterExport(cl, "true_effect")
+clusterExport(cl, "store_results")
+clusterExport(cl, "one_interation")
 
+start <- Sys.time()
+res_list <- parSapply(cl, 1:8, one_interation)
+end <- Sys.time()
+end-start
 
