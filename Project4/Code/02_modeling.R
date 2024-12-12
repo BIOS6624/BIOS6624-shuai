@@ -125,3 +125,5 @@ res_list <- parLapply(cl, 1:4, one_interation)
 end <- Sys.time()
 end-start
 
+
+
