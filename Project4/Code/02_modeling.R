@@ -44,8 +44,19 @@ df_sim <-
 
 ### define a function to store model result to results_arr
 store_results <- function(results_arr,fit, model_name,i){
-  
-  eta_hat <- fit@beta[2] + fit@beta[4]*sin(2*pi*sind_pred)
+  if(model_name == 'misspecified_mean_re'){
+    eta_hat <- fit_mis_all_i@beta[2] + fit_mis_all_i@beta[4]
+    Xmat <- cbind(rep(0, n_spred), 
+                   rep(1, n_spred),
+                   rep(0, n_spred),
+                   sind_pred)
+  }else{
+    Xmat <- cbind(rep(0, n_spred), 
+                  rep(1, n_spred),
+                  rep(0, n_spred),
+                  sin(2*pi*sind_pred))
+    eta_hat <- fit@beta[2] + fit@beta[4]*sin(2*pi*sind_pred)
+  }
   vbeta_hat <- vcov(fit)
   SE_correct_i <- sqrt(diag(Xmat %*% vbeta_hat %*% t(Xmat)) )
   LB_correct_i <- eta_hat - qnorm(0.975)*SE_correct_i
@@ -82,10 +93,7 @@ for(i in 1:nsim){
   fit_misspecified_re_i <- glmer(Y ~ trt*sin_s + (1+sind|ID), family=poisson, data=df_i)
   fit_misspecified_mean_re_i <- glmer(Y ~ trt*sind + (1+sind|ID), family=poisson, data=df_i)
   ## define Xmat
-  Xmat <- cbind(rep(0, n_spred), 
-                rep(1, n_spred),
-                rep(0, n_spred),
-                sin(2*pi*sind_pred))
+
   ## get estimated coefficients
   # \hat{treatment effect}(s)
 
@@ -100,5 +108,20 @@ for(i in 1:nsim){
 end <- Sys.time()
 end-start
 saveRDS(results_arr, 'DataProcessed/results_arr.RDS')
+results_arr <- readRDS('DataProcessed/results_arr.RDS')
+res_df <- as.data.frame.table(results_arr)%>%
+  group_by(model,metric,sind)%>%
+  summarise(value = mean(Freq))%>%ungroup()%>%
+  mutate(sind = as.numeric(as.character(sind)))
 
 
+p1 <- res_df%>%filter( metric == 'MSE')%>%ggplot()+
+  geom_line(aes(x = sind, y = value, group = model, color = model))+ggtitle("MSE") 
+p2 <- res_df%>%filter( metric == 'bias')%>%ggplot()+
+  geom_line(aes(x = sind, y = value, group = model, color = model))+ggtitle("Bias") 
+p3 <- res_df%>%filter( metric == 'coverage')%>%ggplot()+
+  geom_line(aes(x = sind, y = value, group = model, color = model))+ggtitle("95 % coverage") 
+
+png('Figure/result plot.png', width = 6, height = 8, units = 'in',res = 300)
+gridExtra::grid.arrange(p1,p2,p3)
+dev.off()
