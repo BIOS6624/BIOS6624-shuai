@@ -90,8 +90,8 @@ for(i in 1:nsim){
   df_i$Y <- vapply(df_i$eta_ij, function(x) rpois(1, exp(x)),numeric(1))  
   
   ## fit the models
-  #fit_correct_i <- glmer(Y ~ trt*sin_s + (sin_s - 1|ID) + (cos_s - 1|ID), family=poisson, data=df_i)
-  #fit_misspecified_re_i <- glmer(Y ~ trt*sin_s + (1+sind|ID), family=poisson, data=df_i)
+  fit_correct_i <- glmer(Y ~ trt*sin_s + (sin_s - 1|ID) + (cos_s - 1|ID), family=poisson, data=df_i)
+  fit_misspecified_re_i <- glmer(Y ~ trt*sin_s + (1+sind|ID), family=poisson, data=df_i)
   fit_misspecified_mean_re_i <- glmer(Y ~ trt*sind + (1+sind|ID), family=poisson, data=df_i)
   ## define Xmat
 
@@ -100,15 +100,15 @@ for(i in 1:nsim){
 
   # test something
   ### correct model
-  #results_arr <- store_results(results_arr, fit_correct_i, 'correct', i)
-  #results_arr <- store_results(results_arr, fit_misspecified_re_i,"misspecified_re",i)
+  results_arr <- store_results(results_arr, fit_correct_i, 'correct', i)
+  results_arr <- store_results(results_arr, fit_misspecified_re_i,"misspecified_re",i)
   results_arr <- store_results(results_arr, fit_misspecified_mean_re_i, "misspecified_mean_re",i)
 
   setTxtProgressBar(pb,i)
 }
 end <- Sys.time()
 end-start
-saveRDS(results_arr, 'DataProcessed/results_arr2.RDS')
+saveRDS(results_arr, 'DataProcessed/results_arr.RDS')
 
 ## plot
 results_arr <- readRDS('DataProcessed/results_arr.RDS')
