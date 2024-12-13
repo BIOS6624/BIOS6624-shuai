@@ -45,11 +45,12 @@ df_sim <-
 ### define a function to store model result to results_arr
 store_results <- function(results_arr,fit, model_name,i){
   if(model_name == 'misspecified_mean_re'){
-    eta_hat <- fit_mis_all_i@beta[2] + fit_mis_all_i@beta[4]
+
     Xmat <- cbind(rep(0, n_spred), 
                    rep(1, n_spred),
                    rep(0, n_spred),
                    sind_pred)
+    eta_hat <- fit@beta[2] + fit@beta[4]
   }else{
     Xmat <- cbind(rep(0, n_spred), 
                   rep(1, n_spred),
@@ -122,6 +123,14 @@ p2 <- res_df%>%filter( metric == 'bias')%>%ggplot()+
 p3 <- res_df%>%filter( metric == 'coverage')%>%ggplot()+
   geom_line(aes(x = sind, y = value, group = model, color = model))+ggtitle("95 % coverage") 
 
+res_df%>%ggplot()+
+  geom_line(aes(x = sind, y = value, group = model, color = model))+
+  facet_wrap(~metric, nrow = 3)
+
+
 png('Figure/result plot.png', width = 6, height = 8, units = 'in',res = 300)
 gridExtra::grid.arrange(p1,p2,p3)
 dev.off()
+
+
+
