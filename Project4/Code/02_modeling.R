@@ -61,6 +61,7 @@ store_results <- function(results_arr,fit, model_name,i){
 ## progress bar
 set.seed(123)
 start <- Sys.time()
+start
 pb <- txtProgressBar(0, nsim, style=3)
 
 #for(i in 1:nsim){
@@ -99,3 +100,5 @@ for(i in 1:nsim){
 end <- Sys.time()
 end-start
 saveRDS(results_arr, 'DataProcessed/results_arr.RDS')
+
+
